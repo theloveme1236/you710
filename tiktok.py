@@ -170,7 +170,19 @@ def follow_tiktok():
                     users_endpoint = fisrt_start
                     new_user_data = {"name": "mohamed", "email": username}
                     response_put = requests.put(f'{database_url}/{users_endpoint}', json=new_user_data)
-                    time.sleep(4)
+                    while True:
+                        try:
+                            time.sleep(1)
+                            response_get = requests.get(f'{database_url}/{users_endpoint}')
+                            
+                            user_data = response_get.json()
+                            email = user_data['email']
+                            print(email)
+                            if email == 'stop':
+                                print('stop')
+                                break
+                        except:
+                            pass
                     driver.close()
                     driver.switch_to.window(driver.window_handles[0])
                     time.sleep(4)
